@@ -26,7 +26,7 @@ void usage();   // todo
 int main(int argc, char *argv[])
 {
 
-    int x = 1;
+//    int x = 1;
 //    cout << "vypisok: " << x++ << endl;
 
     const char port[6] = "33434";
