@@ -25,10 +25,9 @@ void usage();   // todo
 
 int main(int argc, char *argv[])
 {
-    cout << '\0';
 
-    // file descriptor for socket we will use
-    int rcv_s_fd;
+    int x = 1;
+    cout << "vypisok: " << x++ << endl;
 
     const char port[6] = "33434";
 
@@ -50,6 +49,8 @@ int main(int argc, char *argv[])
     if ((getaddrinfo_ecode = getaddrinfo(ip_address, port, &recv_addr_info, &addr_result)) != 0)
         cerr << "get error code: " << getaddrinfo_ecode << " on getting address info" << endl;
 
+    // file descriptor for socket we will use
+    int rcv_s_fd;
     if ((rcv_s_fd = socket(addr_result->ai_family, addr_result->ai_socktype, addr_result->ai_protocol)) < 0)
     {
         cerr << "Error: unknown icmp socket" << endl;
@@ -72,6 +73,7 @@ int main(int argc, char *argv[])
 
     for (int ttl = first_ttl; ttl <= max_ttl; ++ttl)
     {
+        cout << "vypisok v 1 cykle: " << x++ << endl;
         if (target_reached)
             break;
 
@@ -108,6 +110,7 @@ int main(int argc, char *argv[])
 
         for ( ; ; )
         {
+            cout << "vypisok v 2 cykle: " << x++ << endl;
             if (increment_ttl || target_reached)
                 break;
 
@@ -141,6 +144,7 @@ int main(int argc, char *argv[])
 
             for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = CMSG_NXTHDR(&msg, cmsg))
             {
+                cout << "vypisok v 3 cykle: " << x++ << endl;
                 if (increment_ttl || target_reached)
                     break;
 
@@ -163,6 +167,7 @@ int main(int argc, char *argv[])
 
                         if (e->ee_origin == SO_EE_ORIGIN_ICMP)
                         {
+                            double delta = deltaT(&t1, &t2);
                             switch (e->ee_type)
                             {
                                 /*
@@ -180,7 +185,7 @@ int main(int argc, char *argv[])
                                 */
 
                                 case ICMP_TIME_EXCEEDED:
-                                    cout << "   " << deltaT(&t1, &t2) << "ms" << endl;
+                                    cout << "   " << delta << "ms" << endl;
                                     increment_ttl = true;
                                     break;
 
@@ -195,7 +200,7 @@ int main(int argc, char *argv[])
                                         cout << "   X!" << endl;
                                     else if (e->ee_code == ICMP_PORT_UNREACH)
                                     {
-                                        cout << "   " << deltaT(&t1, &t2) << "ms" << endl;
+                                        cout << "   " << delta << "ms" << endl;
                                         target_reached = true;
                                     }
                                     break;
