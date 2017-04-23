@@ -25,6 +25,8 @@ void usage();   // todo
 
 int main(int argc, char *argv[])
 {
+    cout << '\0';
+
     // file descriptor for socket we will use
     int rcv_s_fd;
 
