@@ -28,8 +28,6 @@ int main(int argc, char *argv[])
     // file descriptor for socket we will use
     int rcv_s_fd;
 
-    int x = 1;
-    cout << "vypisok: " << x++ << endl;
     const char port[6] = "33434";
 
     struct addrinfo recv_addr_info, *addr_result;
@@ -72,8 +70,6 @@ int main(int argc, char *argv[])
 
     for (int ttl = first_ttl; ttl <= max_ttl; ++ttl)
     {
-        cout << "vypisok v 1 cykle: " << x++ << endl;
-
         if (target_reached)
             break;
 
@@ -110,8 +106,6 @@ int main(int argc, char *argv[])
 
         for ( ; ; )
         {
-            cout << "vypisok v 2 cykle: " << x++ << endl;
-
             if (increment_ttl || target_reached)
                 break;
 
@@ -145,8 +139,6 @@ int main(int argc, char *argv[])
 
             for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = CMSG_NXTHDR(&msg, cmsg))
             {
-                cout << "vypisok v 3 cykle : " << x++ << endl;
-
                 if (increment_ttl || target_reached)
                     break;
 
